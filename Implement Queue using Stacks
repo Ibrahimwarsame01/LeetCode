@@ -1,0 +1,61 @@
+#define MAX_SIZE 1000
+
+typedef struct {
+    int inputStack[MAX_SIZE];
+    int outStack[MAX_SIZE];
+    int topIn;
+    int topOut;
+} MyQueue;
+
+
+MyQueue* myQueueCreate() {
+    MyQueue* obj = malloc(sizeof(MyQueue));
+    obj->topIn = -1;
+    obj->topOut = -1;
+    return obj;
+}
+
+void myQueuePush(MyQueue* obj, int x) {
+    obj->inputStack[++(obj->topIn)] = x;
+}
+int myQueuePop(MyQueue* obj) {
+    if (obj->topOut == -1) {
+        while (obj->topIn != -1) {
+            obj->outStack[++(obj->topOut)] = obj->inputStack[(obj->topIn)--];
+        }
+    }
+    int val = obj->outStack[obj->topOut];
+    obj->topOut--;
+    return val;
+}
+
+int myQueuePeek(MyQueue* obj) {
+    if (obj->topOut == -1) {
+        while (obj->topIn != -1) {
+            obj->outStack[++(obj->topOut)] = obj->inputStack[(obj->topIn)--];
+        }
+    }
+    return obj->outStack[obj->topOut];
+}
+
+bool myQueueEmpty(MyQueue* obj) {
+    return (obj->topIn == -1 && obj->topOut == -1);
+}
+
+void myQueueFree(MyQueue* obj) {
+    free(obj);
+}
+
+/**
+ * Your MyQueue struct will be instantiated and called as such:
+ * MyQueue* obj = myQueueCreate();
+ * myQueuePush(obj, x);
+ 
+ * int param_2 = myQueuePop(obj);
+ 
+ * int param_3 = myQueuePeek(obj);
+ 
+ * bool param_4 = myQueueEmpty(obj);
+ 
+ * myQueueFree(obj);
+*/
